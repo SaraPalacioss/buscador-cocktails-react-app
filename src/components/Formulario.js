@@ -1,17 +1,33 @@
-import React, {useContext} from 'react';
+import React, {useContext, useState} from 'react';
 import {CategoriasContext} from '../context/CategoriasContext';
+import {RecetasContext} from '../context/RecetasContext';
 
 const Formulario = () => {
 
+    const [busqueda, guardarBusqueda] = useState({
+        nombre: '',
+        categoria: ''
+    });
+
     const {categorias} = useContext(CategoriasContext);
+    const {buscarRecetas} = useContext(RecetasContext);
 
-    console.log(categorias);
-
+    //función para leer los contenidos
+    const obtenerDatosCocktail = e => {
+        guardarBusqueda({
+            ...busqueda,
+            [e.target.name] : e.target.value
+        })
+    }
 
 
     return (  
         <form
             className="col-12"
+            onSubmit={e => {
+                e.preventDefault();
+                buscarRecetas(busqueda)
+            }}
         >
             <fieldset className="text-center">
                 <legend>Busca cockteles por categoría o ingrediente</legend>
@@ -23,12 +39,14 @@ const Formulario = () => {
                         className="form-control"
                         type="text"
                         placeholder="Buscar por ingrediente"
+                        onChange={obtenerDatosCocktail}
                     />
                 </div>
                 <div className="col-md-4">
                     <select
                         className="form-control"
                         name="categoria"
+                        onChange={obtenerDatosCocktail}
                     >
                         <option value="">-- Selecciona categoría --</option>
                         {categorias.map(categoria => (
