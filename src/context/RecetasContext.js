@@ -34,7 +34,8 @@ const RecetasProvider = (props) => {
             value={{
                 recetas,
                 buscarRecetas,
-                guardarConsultar
+                guardarConsultar,
+                guardarRecetas
             }}
         >
             {props.children}
